@@ -39,6 +39,8 @@ def GameReady():
             while True:
                 if map_style.lower() not in ['rectsmall','rectmid','rectlarge']:
                     map_style = input("输入错误！请重新输入(RectSmall/RectMid/RectLarge)：")
+                else:
+                    break
             gameID = function.CreateGame(map_style)
             print("创建成功！您创建的游戏的ID为：" + gameID)
             break
@@ -130,12 +132,12 @@ if __name__ == '__main__':
     gameList = function.GetGameList()
     for game in gameList:
         print("%-40s %-20s " % (game["id"],game["map"]) + str(game["state"]))
-    # game_info = GameReady()  #返回游戏id和当前玩家的id，字典类型
-    # ##############################游戏战斗阶段#################################
-    # playerId = game_info['playerId']
-    # gameId = game_info['gameId']
-    playerId = 'e5a459a9dc1841c080ea76f83a741323'
-    gameId = 'aef4aa50562e4f428149b6183bf7f3f7'
+    game_info = GameReady()  #返回游戏id和当前玩家的id，字典类型
+    ##############################游戏战斗阶段#################################
+    playerId = game_info['playerId']
+    gameId = game_info['gameId']
+    # playerId = 'e5a459a9dc1841c080ea76f83a741323'
+    # gameId = 'aef4aa50562e4f428149b6183bf7f3f7'
     first = True
     tmp_detail = {}
     while True:
@@ -150,7 +152,6 @@ if __name__ == '__main__':
         # AttackCell(game_detail,player_detail)
         # #将AttackCell函数的调用放到子线程，与主线程同时进行
         if game_detail != tmp_detail or first:
-            t1.stop()
             t1 = threading.Thread(target=AttackCell,args=(game_detail,player_detail))
             t1.setDaemon(True)
             t1.start()
